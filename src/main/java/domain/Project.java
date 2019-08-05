@@ -3,12 +3,17 @@ package domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jdk.jfr.DataAmount;
 import lombok.Data;
+import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
@@ -17,6 +22,7 @@ import java.time.LocalDate;
 
 @Entity
 @Data
+@ToString(exclude = "backlog")
 public class Project {
 
   @Id
@@ -45,6 +51,9 @@ public class Project {
 
   @JsonFormat(pattern = "yyyy-mm-dd")
   private LocalDate updatedAt;
+
+  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
+  private Backlog backlog;
 
   @PrePersist
   protected void onCreate() {
