@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface ProjectRepository extends CrudRepository<Project, Long> {
 
+  Optional<Project> findByProjectIdentirier(String projectId);
 }

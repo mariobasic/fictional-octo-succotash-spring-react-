@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repositories.ProjectRepository;
 
+import java.util.Optional;
+
 @Service
 public class ProjectService {
 
@@ -25,4 +27,11 @@ public class ProjectService {
     }
 
   }
+
+  public Project findProjectByIdentifier(String projectId) {
+    Optional<Project> project = projectRepository.findByProjectIdentirier(projectId.toUpperCase());
+
+    return project.orElseThrow(() -> new ProjectIdException("Project ID " + projectId + " does not exist"));
+  }
+
 }

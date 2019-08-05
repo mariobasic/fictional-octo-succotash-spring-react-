@@ -1,10 +1,13 @@
 package web;
 
 import domain.Project;
+import exceptions.ProjectIdException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +39,13 @@ public class ProjectController {
 
     Project project1 = projectService.saveOrUpdate(project);
     return new ResponseEntity<>(project1, HttpStatus.CREATED);
+  }
+
+  @GetMapping("/{projectId}")
+  public ResponseEntity<?> getProjectById(@PathVariable String projectId) {
+    Project project = projectService.findProjectByIdentifier(projectId);
+
+    return new ResponseEntity<>(project, HttpStatus.OK);
   }
 
 }
